@@ -1,0 +1,12 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/source/System Scan and Repair Module/.vs/System Scan and Repair Module/v17
+/source/System Scan and Repair Module/.vs/System Scan and Repair Module/FileContentIndex
+/source/System Scan and Repair Module/x64/Debug/New folder
+/source/System Scan and Repair Module/x64/Debug
+/source/System Scan and Repair Module/System Scan and Repair Module.vcxproj.user
+/source/System Scan and Repair Module/System Scan and Repair Module.vcxproj.filters
+/source/System Scan and Repair Module/System Scan and Repair Module.vcxproj
+/System Scan and Repair Module.bat
