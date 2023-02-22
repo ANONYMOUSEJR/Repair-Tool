@@ -291,7 +291,7 @@ start:
 }
 
 void opMenu(short spd, short power) {
-	print("WARNING: To use the windows functions you Must run this program with elevated privaleges,\nEverything else works in normal mode.\n", spd);
+	print("WARNING: To use the windows functions you Must run this program with elevated privaleges,\nEverything else works in normal mode.\nTo full screen press [ALT + ENTER] keys.\n", spd);
 	print("Press ENTER key to continue...", spd);
 	cin.get();
 start:
