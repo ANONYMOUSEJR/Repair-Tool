@@ -19,10 +19,6 @@ void cinFlush() {
 	cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignores all characters up until the newline character.
 }
 
-void border() {
-	cout << "*****************************************************************\n";
-}
-
 void cls() {
 	system("cls");
 }
@@ -55,8 +51,12 @@ void print(string txt, short spd) {
 	}
 }
 
+void border(short spd) {
+	print("*****************************************************************\n", spd);
+}
+
 void cont(short spd) {
-	print("Press ENTER key to continue...", spd);
+	print("Press ENTER key to continue", spd); pause();
 	cinFlush();
 	cin.get();
 }
@@ -237,12 +237,13 @@ start:
 	print("2) DISM CheckHealth.\n", spd);
 	print("3) DISM ScanHealth.\n", spd);
 	print("4) DISM RestoreHealth.\n", spd);
-	print("5) Return.\n~> ", spd);
+	print("5) Desktop Unresponsive Fix.\n", spd);
+	print("6) Return.\n~> ", spd);
 	cin >> choice;
 	switch (choice) {
 	case 1:
 		cls();
-		border();
+		border(spd);
 		print("The command used is: \"sfc \\scannow\".\n", spd);
 		print("It stands for \"System File Checker\" and when executed,\nit scans all protected system files and replaces corrupted\nor missing files with a cached copy that is located in a\ncompressed folder at %WinDir%\\System32\\dllcache.", spd);
 		print("\n\nTLDR; \"sfc /scannow\" is useful for checking and repairing system files,\nwhich can be useful for resolving issues related to system crashes\nor error messages related to missing or corrupted system files.\n", spd);
@@ -252,7 +253,7 @@ start:
 
 	case 2:
 		cls();
-		border();
+		border(spd);
 		print("The command used is: \"DISM /Online /Cleanup-Image /CheckHealth\"\n", spd);
 		print("It stands for \"Deployment Image Servicing and Management\" and is used to repair and prepare Windows images.\nThe \" /Online\" switch specifies that the image to repair is the currently running operating system.\nThe \"/Cleanup-Image\" switch is used to free up space and remove unnecessary files.\nThe \"/CheckHealth\" switch is used to check the health of the operating system image and reports\nwhether it is healthy or if there are any issues that need to be addressed.\nThis command can be used to troubleshoot and repair problems with the operating system,\nand can also be used to prepare an image for deployment.\n", spd);
 		print("\n\nTLDR; \"DISM /Online /Cleanup-Image /CheckHealth\" is a good starting point for troubleshooting issues\nwith your operating system, as it quickly checks the health of the image and reports any issues\nthat need to be addressed.\n", spd);
@@ -262,7 +263,7 @@ start:
 
 	case 3:
 		cls();
-		border();
+		border(spd);
 		print("The command used is: \"DISM /Online /Cleanup-Image /ScanHealth\"\n", spd);
 		print("It is similar to the command \"DISM /Online /Cleanup-Image /CheckHealth\" in that it\nuses the Deployment Image Servicing and Management (DISM) tool to repair Windows images.\nHowever, the \"/ScanHealth\" switch scans the operating system for component store corruption,\nand verifies the integrity of all protected system files and replaces corrupted files with a\ncached copy that is located in a compressed folder at %WinDir%\\System32\\dllcache.\nThis command can be used to troubleshoot and repair problems with the operating system.\n", spd);
 		print("\n\nTLDR; \"DISM /Online /Cleanup-Image /ScanHealth\" is useful for checking\nthe integrity of the operating system and can be used to fix issues\nrelated to component store corruption.\n", spd);
@@ -272,7 +273,7 @@ start:
 
 	case 4:
 		cls();
-		border();
+		border(spd);
 		print("The command used is: \"DISM /Online /Cleanup-Image /RestoreHealth\"\n", spd);
 		print("It is also uses the Deployment Image Servicing and Management (DISM) tool, and it is used to repair the operating system image.\nThe \"/Online\" switch specifies that the image to repair is the currently running operating system.\nThe \"/Cleanup-Image\" switch is used to free up space and remove unnecessary files.\nThe \"/RestoreHealth\" switch scans the operating system for component store corruption and attempts to repair any issues found using Windows Update.\nThis switch will also check for component corruption, system file corruption, and missing protection registration for the component.\nIf any issues are found, DISM will try to download and replace the corrupted or missing files from Windows Update.\nThis command can be used to troubleshoot and repair problems with the operating system.\n", spd);
 		print("\n\nTLDR; \"DISM / Online / Cleanup - Image / RestoreHealth\" is the most comprehensive command,\nas it scans the operating system for component store corruption,\nchecks for component corruption, system file corruption,\nand missing protection registration for the component,\nand then attempts to repair any issues found using Windows Update.\nWill also be amongst the most time consuming options.\n", spd);
@@ -281,6 +282,15 @@ start:
 		break;
 
 	case 5:
+		cls();
+		border(spd);
+		print("The commands used are: \"taskkill /IM explorer.exe /F\" & \"start explorer.exe\"\n", spd);
+		print("\"Taskkill\" terminates programs.\n\"/IM explorer.exe\" specifies that the terminated program is an image by the name of explorer.exe.\n\"/F\" specifies that the process is to be terminated forcefully.\n", spd);
+		print("\"start explorer.exe\" just runs the now closed program.\n", spd);
+		cont(spd);
+		break;
+
+	case 6:
 		return;
 
 	default:
@@ -290,10 +300,37 @@ start:
 	goto start;
 }
 
+void unresponsiveFix(short spd) {
+	string choice;
+start:
+	cls();
+	cinFlush();
+	print("The following script will restart explorer.exe, continue? (y/n)\n~> ", spd);
+	cin >> choice;
+
+	if (choice[1] != '\0') {
+		print("Sorry that input is invalid, try again", spd); cinFlush(); pause();
+	}
+	else if (choice[0] == 'y' || choice[0] == 'Y') {
+		system("taskkill /IM explorer.exe /F");
+		sleep_for(milliseconds(500));
+		print("Please select the console again in order to regain the ability to interact with it.\n", spd);
+		system("start explorer.exe");
+		cont(spd);
+		return;
+	}
+	else if (choice[0] == 'n' || choice[0] == 'N') {
+		return;
+	}
+	else {
+		print("Sorry that input is invalid, try again", spd); cinFlush(); pause();
+		goto start;
+	}
+}
+
 void opMenu(short spd, short power) {
 	print("WARNING: To use the windows functions you Must run this program with elevated privaleges,\nEverything else works in normal mode.\nTo full screen press [ALT + ENTER] keys.\n", spd);
-	print("Press ENTER key to continue...", spd);
-	cin.get();
+	system("timeout /t 3");
 start:
 	cls();
 	short choice = 0;
@@ -303,40 +340,39 @@ start:
 	print("3) DISM scanHealth.\n", spd);
 	print("4) DISM restoreHealth.\n", spd);
 	print("5) All of the above.\n", spd);
-	print("6) Info.\n", spd);
-	print("7) Settings.\n", spd);
-	print("8) Exit.\n~> ", spd);
+	print("6) Desktop Unresponsive Fix.\n", spd);
+	print("7) Info.\n", spd);
+	print("8) Settings.\n", spd);
+	print("9) Exit.\n~> ", spd);
 	cin >> choice;
 
 	switch (choice){
 	case 1:
 		cls();
 		system("sfc /scannow");
-		cinFlush();
+		system("timeout /t 60");
 		end(power);
-		cont(spd);
 		break;
 
 	case 2:
 		cls();
 		system("DISM /Online /Cleanup-Image /CheckHealth");
-		cinFlush();
+		system("timeout /t 60");
 		cont(spd);
 		break;
 
 	case 3:
 		cls();
 		system("DISM /Online /Cleanup-Image /ScanHealth");
-		cinFlush();
+		system("timeout /t 60");
 		end(power);
 		break;
 
 	case 4:
 		cls();
 		system("DISM /Online /Cleanup-Image /RestoreHealth");
-		cinFlush();
+		system("timeout /t 60");
 		end(power);
-		cont(spd);
 		break;
 
 	case 5:
@@ -345,31 +381,34 @@ start:
 		system("DISM /Online /Cleanup-Image /CheckHealth");
 		system("DISM /Online /Cleanup-Image /ScanHealth");
 		system("DISM /Online /Cleanup-Image /RestoreHealth");
-		pause(); pause(); pause();
+		system("timeout /t 60");
 		end(power);
-		cinFlush();
-		cont(spd);
 		break;
 
 	case 6:
+		cls();
+		unresponsiveFix(spd);
+		break;
+
+	case 7:
 		cls();
 		cinFlush();
 		info(spd);
 		break;
 
-	case 7:
+	case 8:
 		cinFlush();
 		setMenu(spd, power);
 		break;
 
-	case 8:
+	case 9:
 		cls();
 		print("Thank you for using my program", spd); pause();
 		return;
 
 	default:
 		cls();
-		print("Sorry that input is invalid, try again", spd); cinFlush(); pause();
+		print("Sorry that input is invalid, try again", spd); pause();
 		break;
 	}
 	goto start;
