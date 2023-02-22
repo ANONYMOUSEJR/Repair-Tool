@@ -179,19 +179,22 @@ void end(short power) {
 	switch (power){
 	case 1:
 		system("shutdown /s /t 300");
+		break;
 
 	case 2:
 		system("shutdown /r /t 300");
+		break;
 
 	case 3:
 		system("shutdown /l /t 300");
+		break;
 
 	case 0:
 		return;
 	}
 }
 
-void setMenu(short &spd, short power) {
+void setMenu(short &spd, short &power) {
 start:
 	cls();
 	short choice = 0;
@@ -312,6 +315,7 @@ start:
 		cinFlush();
 		end(power);
 		cont(spd);
+		break;
 
 	case 2:
 		cls();
@@ -325,6 +329,7 @@ start:
 		system("DISM /Online /Cleanup-Image /ScanHealth");
 		cinFlush();
 		end(power);
+		break;
 
 	case 4:
 		cls();
@@ -332,6 +337,7 @@ start:
 		cinFlush();
 		end(power);
 		cont(spd);
+		break;
 
 	case 5:
 		cls();
@@ -343,7 +349,6 @@ start:
 		end(power);
 		cinFlush();
 		cont(spd);
-
 		break;
 
 	case 6:
