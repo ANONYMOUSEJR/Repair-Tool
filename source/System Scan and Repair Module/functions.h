@@ -1,9 +1,13 @@
 #pragma once
 
+// \003 is a <3.
+
 #include <iostream>
 
 #include <chrono>
 #include <thread>
+
+#include "confile.h"
 
 using std::this_thread::sleep_for;
 using std::chrono::milliseconds;
@@ -61,48 +65,63 @@ void cont(short spd) {
 	cin.get();
 }
 
-void colorChoice(short spd) {
+void colorChoice(short spd, short &colour, short autoChoice = 0) {
 start:
 	cls();
 	short choice = 0;
-	//cout << "Enter which color you would like to set the program to:\n";
-	print("Enter which color you would like to have the program use:\n", spd);
+
+	if ((autoChoice > 0) && (autoChoice <= 5)) {
+		choice = autoChoice;
+		goto skip;
+	}
+
+	//cout << "Enter which colour you would like to set the program to:\n";
+	print("Enter which colour you would like to have the program use:\n", spd);
 	print("1) Light Red.\n", spd);
 	print("2) Light Purple.\n", spd);
 	print("3) Light Yellow.\n", spd);
 	print("4) Light Green.\n", spd);
 	print("5) Bright White.\n", spd);
-	print("6) Return.\n", spd);
+	print("0) Return.\n", spd);
 	print("~> ", spd);
 	cin >> choice;
 
+skip:
 	switch (choice) {
 	case 1:
+		colour = choice;
 		system("color c");
 		break;
 
 	case 2:
+		colour = choice;
 		system("color d");
 		break;
 
 	case 3:
+		colour = choice;
 		system("color e");
 		break;
 
 	case 4:
+		colour = choice;
 		system("color a");
 		break;
 
 	case 5:
+		colour = choice;
 		system("color f");
 		break;
 
-	case 6:
+	case 0:
 		return;
 
 	default:
 		print("Sorry that input is invalid, try again", spd); cinFlush(); pause();
 		break;
+	}
+	if (autoChoice > 0) {
+		return;
 	}
 	goto start;
 }
@@ -145,7 +164,7 @@ start:
 	print("2) Restart, set to: ", spd); if (power == 2) { cout << "TRUE.\n"; } else { cout << "FALSE.\n"; }
 	print("3) Logout, set to: ", spd); if (power == 3) { cout << "TRUE.\n"; }else { cout << "FALSE.\n"; }
 	print("4) Do Nothing, set to: ", spd); if (power == 0) { cout << "TRUE.\n"; } else { cout << "FALSE.\n"; }
-	print("5) Return.\n~> ", spd);
+	print("0) Return.\n~> ", spd);
 	cin >> choice;
 
 	switch (choice){
@@ -165,7 +184,7 @@ start:
 		power = 0;
 		break;
 
-	case 5:
+	case 0:
 		return;
 
 	default:
@@ -175,18 +194,40 @@ start:
 	goto start;
 }
 
-void end(short power) {
-	switch (power){
+void abort(short power) {
+	short choice = 0;
+	cout << "Would you like to (1)Abort, (2)Speed things up, or (3)Do noting?\n";
+	cin >> choice;
+	switch (choice) {
 	case 1:
-		system("shutdown /s /t 300");
+		system("shutdown /a");
 		break;
 
 	case 2:
-		system("shutdown /r /t 300");
+		if (power == 1) {
+			system("shutdown /s /t 0");
+		}
+		else if (power == 2) {
+			system("shutdown /r /t 0");
+		}
+		else if (power == 3) {
+			system("shutdown /l /t 0");
+		}
+	}
+}
+
+void end(short power) {
+	switch (power){ // 5 mins.
+	case 1:
+		system("shutdown /s /t 300"); // Shutdown.
+		break;
+
+	case 2:
+		system("shutdown /r /t 300"); // Restart.
 		break;
 
 	case 3:
-		system("shutdown /l /t 300");
+		system("shutdown /l /t 300"); // Logout.
 		break;
 
 	case 0:
@@ -194,7 +235,48 @@ void end(short power) {
 	}
 }
 
-void setMenu(short &spd, short &power) {
+void stat(short spd, short power, short colour) {
+	cout << setw(28) << "Scrolling effect is set to: ";
+	if (spd) {
+		print("TRUE.\n", spd);
+	}
+	else {
+		print("FALSE.\n", spd);
+	}
+
+	cout << setw(28) << "Power is set to: ";
+	if (power == 0) {
+		print("DO NOTHING.\n", spd);
+	}
+	else if (power == 1) {
+		print("SHUTDOWN.\n", spd);
+	}
+	else if (power == 2) {
+		print("RESTART.\n", spd);
+	}
+	else if (power == 3) {
+		print("LOGOUT.\n", spd);
+	}
+
+	cout << setw(28) << "Colour is set to: ";
+	if (colour == 1) {
+		print("LIGHT RED.", spd);
+	}
+	else if (colour == 2) {
+		print("LIGHT PURPLE.\n", spd);
+	}
+	else if (colour == 3) {
+		print("LIGHT YELLOW.\n", spd);
+	}
+	else if (colour == 4) {
+		print("LIGHT GREEN.\n", spd);
+	}
+	else if (colour == 5) {
+		print("BRIGHT WHITE.\n", spd);
+	}
+}
+
+void setMenu(short &spd, short &power, short &colour) {
 start:
 	cls();
 	short choice = 0;
@@ -202,12 +284,13 @@ start:
 	print("1) System Colors.\n", spd);
 	print("2) Print Scrolling.\n", spd);
 	print("3) Power Settings.\n", spd);
-	print("4) return.\n", spd);
-	print("~> ", spd); cin >> choice;
+	print("0) return.\n\n\n", spd);
+	stat(spd, power, colour);
+	cout << "\033[5A \r"; cout << "~> "; cin >> choice;
 
 	switch (choice){
 	case 1:
-		colorChoice(spd);
+		colorChoice(spd, colour);
 		break;
 
 	case 2:
@@ -218,7 +301,8 @@ start:
 		onProcEnd(spd, power);
 		break;
 
-	case 4:
+	case 0:
+		saveConf(spd, power, colour);
 		return;
 
 	default:
@@ -238,7 +322,7 @@ start:
 	print("3) DISM ScanHealth.\n", spd);
 	print("4) DISM RestoreHealth.\n", spd);
 	print("5) Desktop Unresponsive Fix.\n", spd);
-	print("6) Return.\n~> ", spd);
+	print("0) Return.\n~> ", spd);
 	cin >> choice;
 	switch (choice) {
 	case 1:
@@ -290,7 +374,7 @@ start:
 		cont(spd);
 		break;
 
-	case 6:
+	case 0:
 		return;
 
 	default:
@@ -316,6 +400,7 @@ start:
 		sleep_for(milliseconds(500));
 		print("Please select the console again in order to regain the ability to interact with it.\n", spd);
 		system("start explorer.exe");
+		SetForegroundWindow(GetConsoleWindow()); // Just to hopefully make the window automatically in the foreground.
 		cont(spd);
 		return;
 	}
@@ -328,7 +413,7 @@ start:
 	}
 }
 
-void opMenu(short spd, short power) {
+void opMenu(short &spd, short &power, short &colour) {
 	print("WARNING: To use the windows functions you Must run this program with elevated privaleges,\nEverything else works in normal mode.\nTo full screen press [ALT + ENTER] keys.\n", spd);
 	system("timeout /t 3");
 start:
@@ -343,7 +428,7 @@ start:
 	print("6) Desktop Unresponsive Fix.\n", spd);
 	print("7) Info.\n", spd);
 	print("8) Settings.\n", spd);
-	print("9) Exit.\n~> ", spd);
+	print("0) Exit.\n~> ", spd);
 	cin >> choice;
 
 	switch (choice){
@@ -398,12 +483,12 @@ start:
 
 	case 8:
 		cinFlush();
-		setMenu(spd, power);
+		setMenu(spd, power, colour);
 		break;
 
-	case 9:
+	case 0:
 		cls();
-		print("Thank you for using my program", spd); pause();
+		print("Thank you for using my program", spd); saveConf(spd, power, colour); pause();
 		return;
 
 	default:
