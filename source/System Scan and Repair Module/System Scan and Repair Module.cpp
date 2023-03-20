@@ -18,7 +18,7 @@ int main()
     */
 
     short spd = 1, power = 0, color = 4; // Will be replaced by loaded file. Also colour 4 is green.
-    //loadConf(spd, power, color);
+    loadConf(spd, power, color);
     colorChoice(spd, color, color);
     cls();
     opMenu(spd, power, color);
