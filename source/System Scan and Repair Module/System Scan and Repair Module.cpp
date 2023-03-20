@@ -6,8 +6,10 @@
 using namespace std;
 
 int main()
-// TODO:
-// Add an abort option after the proceses... with a 5 min counter...
+/* 
+TODO:
+- Add a func that asks the user if they want to update config file? (???maybe???)
+*/
 {
     // To make the program full screen.
     /*

@@ -199,14 +199,36 @@ start:
 	goto start;
 }
 
-void abort(short power) {
+void abort(short power, short spd) {
+start:
+	cls();
 	short choice = 0;
-	cout << "Would you like to (1)Abort, (2)Speed things up, or (3)Do noting?\n";
+	border(spd);
+	if (power == 1) {
+		print("PC will SHUTDOWN soon", spd); pause();
+	}
+	else if (power == 2) {
+		print("\nPC will RESTART soon", spd); pause();
+	}
+	else if (power == 3) {
+		print("\nPC will LOGOUT soon", spd); pause();
+	}
+	else if (power == 4) {
+		return;
+	}
+
+	print("\nWould you like to (1)Abort, (2)Speed things up, or (3)Do nothing?\n~> ", spd);
 	cin >> choice;
+
+	if (!isGud(choice)) {
+		goto def;
+	}
+
 	switch (choice) {
 	case 1:
 		system("shutdown /a");
-		break;
+		print("ABORTED", spd); pause();
+		return;
 
 	case 2:
 		if (power == 1) {
@@ -218,7 +240,20 @@ void abort(short power) {
 		else if (power == 3) {
 			system("shutdown /l /t 0");
 		}
+		return;
+
+	case 3:
+
+		print("NOTHING WILL BE DONE", spd); pause();
+		return;
+
+	default:
+	def:
+		cls();
+		print("Sorry that input is invalid, try again", spd); cinFlush(); pause();
+		break;
 	}
+	goto start;
 }
 
 void end(short power) {
@@ -429,7 +464,7 @@ start:
 }
 
 void opMenu(short &spd, short &power, short &colour) {
-	print("WARNING: To use the windows functions you Must run this program with elevated privaleges,\nEverything else works in normal mode.\nTo full screen press [ALT + ENTER] keys.\n", spd);
+	print("WARNING: To use the windows functions you Must run this program with elevated privileges,\nEverything else works in normal mode.\nTo full screen press [ALT + ENTER] keys.\n", spd);
 	system("timeout /t 3");
 start:
 	cls();
@@ -454,29 +489,33 @@ start:
 	case 1:
 		cls();
 		system("sfc /scannow");
-		system("timeout /t 60");
 		end(power);
+		system("timeout 15");
+		abort(power, spd);
 		break;
 
 	case 2:
 		cls();
 		system("DISM /Online /Cleanup-Image /CheckHealth");
-		system("timeout /t 60");
-		cont(spd);
+		end(power);
+		system("timeout 15");
+		abort(power, spd);
 		break;
 
 	case 3:
 		cls();
 		system("DISM /Online /Cleanup-Image /ScanHealth");
-		system("timeout /t 60");
 		end(power);
+		system("timeout 15");
+		abort(power, spd);
 		break;
 
 	case 4:
 		cls();
 		system("DISM /Online /Cleanup-Image /RestoreHealth");
-		system("timeout /t 60");
 		end(power);
+		system("timeout 15");
+		abort(power, spd);
 		break;
 
 	case 5:
@@ -485,8 +524,9 @@ start:
 		system("DISM /Online /Cleanup-Image /CheckHealth");
 		system("DISM /Online /Cleanup-Image /ScanHealth");
 		system("DISM /Online /Cleanup-Image /RestoreHealth");
-		system("timeout /t 60");
 		end(power);
+		system("timeout 15");
+		abort(power, spd);
 		break;
 
 	case 6:
@@ -507,13 +547,14 @@ start:
 
 	case 0:
 		cls();
-		print("Thank you for using my program", spd); saveConf(spd, power, colour); pause();
+		print("Thank you for using my program", spd); pause();
+		print("\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003\003", spd); //33 Hearts cuz why not?
 		return;
 
 	default:
 	def:
 		cls();
-		print("Sorry that input is invalid, try again", spd); pause();
+		print("Sorry that input is invalid, try again", spd); cinFlush(); pause();
 		break;
 	}
 	goto start;
