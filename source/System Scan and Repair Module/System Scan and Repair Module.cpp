@@ -9,6 +9,7 @@ int main()
 // TODO:
 // - Work on the fullscreen functions.
 // 
+// ~ Create a char counter, with a menu and the ability to allow the user to choose which chars not to include, such as spaces etc...
 // ~ I think that I can make like a puzzle game using the file output stuff, that could be a fun project!
 {
     // To make the program full screen.
