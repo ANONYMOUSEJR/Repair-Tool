@@ -5,7 +5,9 @@
 
 using namespace std;
 
-int main()// chedck folder history, for desktop.ini?
+int main()
+// TODO:
+// Add an abort option after the proceses... with a 5 min counter...
 {
     // To make the program full screen.
     /*
@@ -16,12 +18,10 @@ int main()// chedck folder history, for desktop.ini?
     */
 
     short spd = 1, power = 0, color = 4; // Will be replaced by loaded file. Also colour 4 is green.
-    loadConf(spd, power, color);
+    //loadConf(spd, power, color);
     colorChoice(spd, color, color);
     cls();
     opMenu(spd, power, color);
 
     return 0;
 }
-
-// Add an abort option after the proceses... with a 5 min counter...

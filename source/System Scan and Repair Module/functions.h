@@ -86,6 +86,10 @@ start:
 	print("~> ", spd);
 	cin >> choice;
 
+	if (!isGud(choice)) {
+		goto def;
+	}
+
 skip:
 	switch (choice) {
 	case 1:
@@ -117,6 +121,7 @@ skip:
 		return;
 
 	default:
+	def:
 		print("Sorry that input is invalid, try again", spd); cinFlush(); pause();
 		break;
 	}
@@ -286,7 +291,16 @@ start:
 	print("3) Power Settings.\n", spd);
 	print("0) return.\n\n\n", spd);
 	stat(spd, power, colour);
-	cout << "\033[5A \r"; cout << "~> "; cin >> choice;
+	if (colour == 1) {
+		cout << "\033[4A \r"; cout << "~> "; cin >> choice;
+	}
+	else {
+		cout << "\033[5A \r"; cout << "~> "; cin >> choice;
+	}
+
+	if (!isGud(choice)) {
+		goto def;
+	}
 
 	switch (choice){
 	case 1:
@@ -306,6 +320,7 @@ start:
 		return;
 
 	default:
+	def:
 		print("Sorry that input is invalid, try again", spd); cinFlush(); pause();
 		break;
 	}
@@ -431,6 +446,10 @@ start:
 	print("0) Exit.\n~> ", spd);
 	cin >> choice;
 
+	if (!isGud(choice)) {
+		goto def;
+	}
+
 	switch (choice){
 	case 1:
 		cls();
@@ -492,6 +511,7 @@ start:
 		return;
 
 	default:
+	def:
 		cls();
 		print("Sorry that input is invalid, try again", spd); pause();
 		break;
