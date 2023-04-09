@@ -477,7 +477,8 @@ start:
 	print("5) All of the above.\n", spd);
 	print("6) Desktop Unresponsive Fix.\n", spd);
 	print("7) Info.\n", spd);
-	print("8) Settings.\n", spd);
+	print("8) Sytem Info.\n", spd);
+	print("9) Settings.\n", spd);
 	print("0) Exit.\n~> ", spd);
 	cin >> choice;
 
@@ -541,6 +542,11 @@ start:
 		break;
 
 	case 8:
+		cls();
+		system("systeminfo && pause");
+		break;
+
+	case 9:
 		cinFlush();
 		setMenu(spd, power, colour);
 		break;
