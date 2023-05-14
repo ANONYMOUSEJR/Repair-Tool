@@ -201,7 +201,7 @@ start:
 
 void abort(short power, short spd) {
 start:
-	cout << endl; border(spd); cout << endl;
+	cout << endl;
 	short choice = 0;
 	border(spd);
 	if (power == 1) {
