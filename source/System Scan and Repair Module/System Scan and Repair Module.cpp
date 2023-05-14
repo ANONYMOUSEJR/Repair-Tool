@@ -8,6 +8,7 @@ using namespace std;
 int main()
 // TODO:
 // - Work on the fullscreen functions.
+// - Add ding sound for when the scans finish.
 // 
 // ~ I think that I can make like a puzzle game using the file output stuff, that could be a fun project!
 {

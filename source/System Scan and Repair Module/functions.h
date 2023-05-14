@@ -201,7 +201,7 @@ start:
 
 void abort(short power, short spd) {
 start:
-	cls();
+	cout << endl; border(spd); cout << endl;
 	short choice = 0;
 	border(spd);
 	if (power == 1) {
@@ -213,7 +213,7 @@ start:
 	else if (power == 3) {
 		print("\nPC will LOGOUT soon", spd); pause();
 	}
-	else if (power == 4) {
+	else if (power == 0) {
 		return;
 	}
 
@@ -259,15 +259,15 @@ start:
 void end(short power) {
 	switch (power){ // 5 mins.
 	case 1:
-		system("shutdown /s /t 300"); // Shutdown.
+		system("shutdown /s /t 900"); // Shutdown.
 		break;
 
 	case 2:
-		system("shutdown /r /t 300"); // Restart.
+		system("shutdown /r /t 900"); // Restart.
 		break;
 
 	case 3:
-		system("shutdown /l /t 300"); // Logout.
+		system("shutdown /l /t 900"); // Logout.
 		break;
 
 	case 0:
