@@ -320,6 +320,7 @@ void setMenu(short &spd, short &power, short &colour) {
 start:
 	cls();
 	short choice = 0;
+	string saveToFile = "";
 	print("Which setting would you like to access?\n", spd);
 	print("1) System Colors.\n", spd);
 	print("2) Print Scrolling.\n", spd);
@@ -351,8 +352,27 @@ start:
 		break;
 
 	case 0:
-		saveConf(spd, power, colour);
-		return;
+	save:
+		cls();
+		print("Save to config file (y/n)?\n~>", spd); cin >> saveToFile;
+
+		if (saveToFile[1] != '\0') {
+			print("Sorry that input is invalid, try again", spd); cinFlush(); pause();
+			goto save;
+		}
+
+		if (saveToFile[0] == 'y' || saveToFile[0] == 'Y') {
+			saveConf(spd, power, colour);
+			print("Saved", spd); pause();
+			return;
+		}
+		else if (saveToFile[0] == 'n' || saveToFile[0] == 'N') {
+			return;
+		}
+		else {
+			print("Sorry that input is invalid, try again", spd);
+			goto save;
+		}
 
 	default:
 	def:
