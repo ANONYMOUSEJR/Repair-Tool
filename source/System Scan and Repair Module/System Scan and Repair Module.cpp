@@ -8,6 +8,7 @@ using namespace std;
 int main()
 // TODO:
 // - Work on the fullscreen functions.
+// - Work on the admin checker. (Make the scanners grey if the user does not have admin privaleges and cant use them)
 // - Add ding sound for when the scans finish.
 // - Add version Numbers to the main menus!
 // 
