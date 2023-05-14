@@ -11,6 +11,7 @@ int main()
 // - Work on the admin checker. (Make the scanners grey if the user does not have admin privaleges and cant use them)
 // - Add ding sound for when the scans finish.
 // - Add version Numbers to the main menus!
+// - Give the user an option not to save settings, for when they want to do something a single time.
 // 
 // ~ I think that I can make like a puzzle game using the file output stuff, that could be a fun project!
 {
