@@ -30,24 +30,6 @@ void _pause(short x) {
 	}
 }
 
-void _load(bool x) { // If true it will create else it will delete.
-	_cls();
-	if (x) {
-		cout << "Creating file";
-	}
-	else if (!x) {
-		cout << "Deleting file";
-	}
-	for (short i = 0; i < 3; i++) {
-		cout << ".";
-		Sleep(500);
-	}
-	if (x) {
-		_cls();
-		cout << "File successfully created!\n"; _pause(3);
-	}
-}
-
 bool _isGud(short num) {
 	if (cin.fail()) {
 		// Input could not be interpreted as a short.
@@ -56,18 +38,6 @@ bool _isGud(short num) {
 	else {
 		// Input is a valid short.
 		return true;
-	}
-}
-
-void _remFile() {
-	_load(false);
-	_cls();
-// Attempt to delete the file
-	if (remove("config.txt") != 0) {
-		cerr << "Error deleting file!\n"; _pause(3);
-	}
-	else {
-		cout << "File successfully deleted!\n"; _pause(3);
 	}
 }
 
@@ -109,6 +79,38 @@ void saveConf(short spd = 1, short power = 0, short colour = 4) {
 		file << "3) To change Colour settings replace the value with one of the following numbers:\n -" << setw(16) << " Light Red = " << "1\n -" << setw(16) << " Light Purple = " << "2\n -" << setw(16) << " Light Yellow = " << "3\n -" << setw(16) << " Light Green = " << "4\n -" << setw(16) << " Bright White = " << "5\n\n";
 		file << "General advice, please do NOT remove the \"#\" or \";\" characters,\nit will cause issues in the program because they are used to tell the scanner what's what.\n\nPlease only enter whole numbers as values to be loaded to avoid issues.\nDon't worry about the distance between the \"=\" sign and the actual variable,\nI just made it like that to make it look pretty lol.\n";
 		file.close();
+	}
+}
+
+void _load(bool x, short spd = 1, short power = 0, short colour = 4) { // If true it will create else it will delete.
+	_cls();
+	if (x) {
+		cout << "Creating file";
+	}
+	else if (!x) {
+		cout << "Deleting file";
+	}
+	for (short i = 0; i < 3; i++) {
+		cout << ".";
+		Sleep(500);
+
+		saveConf(spd, power, colour);
+	}
+	if (x) {
+		_cls();
+		cout << "File successfully created!\n"; _pause(3);
+	}
+}
+
+void _remFile() {
+	_load(false);
+	_cls();
+	// Attempt to delete the file
+	if (remove("config.txt") != 0) {
+		cerr << "Error deleting file!\n"; _pause(3);
+	}
+	else {
+		cout << "File successfully deleted!\n"; _pause(3);
 	}
 }
 
@@ -187,6 +189,18 @@ void loadConf(short &spd, short &power, short &colour) {
 			_remFile();
 		}
 		_load(true);
-		saveConf(spd, power, colour);
+	}
+}
+
+bool editConf(short spd = 1) {
+	string choice;
+	fstream file;
+	file.open("config.txt");
+	if (file.is_open()) {
+		system("notepad.exe config.txt");
+		return 0;
+	}
+	else {
+		return 1;
 	}
 }

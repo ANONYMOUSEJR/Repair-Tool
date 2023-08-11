@@ -82,6 +82,7 @@ start:
 	print("3) Light Yellow.\n", spd);
 	print("4) Light Green.\n", spd);
 	print("5) Bright White.\n", spd);
+	print("6) PINK.\n", spd);
 	print("0) Return.\n", spd);
 	print("~> ", spd);
 	cin >> choice;
@@ -115,6 +116,11 @@ skip:
 	case 5:
 		colour = choice;
 		system("color f");
+		break;
+
+	case 6:
+		colour = choice;
+		system("color 0D");
 		break;
 
 	case 0:
@@ -314,17 +320,23 @@ void stat(short spd, short power, short colour) {
 	else if (colour == 5) {
 		print("BRIGHT WHITE.\n", spd);
 	}
+	else if (colour == 6) {
+		print("PINK.\n", spd);
+	}
 }
 
 void setMenu(short &spd, short &power, short &colour) {
 start:
 	cls();
 	short choice = 0;
+	bool fileDoesNotExist = 0;
 	string saveToFile = "";
+	string createNewFile = "";
 	print("Which setting would you like to access?\n", spd);
 	print("1) System Colors.\n", spd);
 	print("2) Print Scrolling.\n", spd);
 	print("3) Power Settings.\n", spd);
+	print("4) Edit the config file directly.\n", spd);
 	print("0) return.\n\n\n", spd);
 	stat(spd, power, colour);
 	if (colour == 1) {
@@ -351,10 +363,39 @@ start:
 		onProcEnd(spd, power);
 		break;
 
+	case 4:
+		fileDoesNotExist = editConf(spd);
+		if (!fileDoesNotExist) {
+			system("notepad.exe config.txt");
+			return;
+		}
+		else {
+			print("ERROR: THE FILE DOES NOT EXIST", spd); pause();
+			print("\n\n\n\nCreate new one with different values (y/n)?\n~> ", spd);
+			cin >> createNewFile;
+			if (createNewFile[1] != '\0') {
+				print("Sorry that input is invalid, try again", spd); cinFlush(); pause();
+				goto save;
+			}
+
+			if (createNewFile[0] == 'y' || createNewFile[0] == 'Y') {
+				_load(true, spd, power, colour);
+				return;
+			}
+			else if (createNewFile[0] == 'n' || createNewFile[0] == 'N') {
+				return;
+			}
+			else {
+				print("Sorry that input is invalid, try again", spd);
+				goto save;
+			}
+		}
+		break;
+
 	case 0:
 	save:
 		cls();
-		print("Save to config file (y/n)?\n~>", spd); cin >> saveToFile;
+		print("Save to config file (y/n)?\n~> ", spd); cin >> saveToFile;
 
 		if (saveToFile[1] != '\0') {
 			print("Sorry that input is invalid, try again", spd); cinFlush(); pause();
@@ -497,9 +538,19 @@ start:
 	print("5) All of the above.\n", spd);
 	print("6) Desktop Unresponsive Fix.\n", spd);
 	print("7) Info.\n", spd);
-	print("8) Sytem Info.\n", spd);
+	print("8) System Info.\n", spd);
 	print("9) Settings.\n", spd);
-	print("0) Exit.\n~> ", spd);
+	print("0) Exit.\n\n", spd);
+	cout << setw(21) << "_______~*~_______\n";
+	cout << setw(20) << "##VERSION 2.5.0##";
+	cout << "\033[2A \r"; 
+space: // This whole thing is so that you cant move the cursor with empty enters. [https://onlinegdb.com/vYSlXTfRd]
+	cout << "~> "; 
+	if (cin.peek() == '\n') {
+		cin.ignore(); // Ignore the Enter key
+		cout << "\033[1A \r";
+		goto space;
+	}
 	cin >> choice;
 
 	if (!isGud(choice)) {
