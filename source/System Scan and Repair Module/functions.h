@@ -544,7 +544,7 @@ start:
 	cout << setw(21) << "_______~*~_______\n";
 	cout << setw(20) << "##VERSION 2.5.0##";
 	cout << "\033[2A \r"; 
-space: // This whole thing is so that you cant move the cursor with empty enters. [https://onlinegdb.com/vYSlXTfRd]
+space: // This whole thing is so that you cant move the cursor with empty enters. [https://onlinegdb.com/_6ldMWN7G]
 	cout << "~> "; 
 	if (cin.peek() == '\n') {
 		cin.ignore(); // Ignore the Enter key
