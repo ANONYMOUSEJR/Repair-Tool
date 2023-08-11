@@ -2,7 +2,8 @@
 
 A program that niceley packages some of windows' builtin functions that fix your computer. With a bit of extra functionality built in.
 
-## Requires Microsoft Visual C++ 2015-2019
+## Download versions 2.5.0 and above as the earlier versions were compiled in debug mode.
+(srry)
 
 For the (deprecated) simplified version, please go to: [https://github.com/ANONYMOUSEJR/WIN10-Repair-Tool]
 
